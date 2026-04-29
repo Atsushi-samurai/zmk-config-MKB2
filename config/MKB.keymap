@@ -42,6 +42,7 @@ combos {
             bindings = <&mkp MCLK>;
         };
     };
+
     keymap {
         compatible = "zmk,keymap";
 
