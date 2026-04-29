@@ -354,3 +354,10 @@ layers:
   - END
   - A
   - B
+combos:
+- p: [19, 20]
+  k: '&mkp LCLK'
+- p: [20, 21]
+  k: '&mkp RCLK'
+- p: [19, 21]
+  k: '&mkp MCLK'
