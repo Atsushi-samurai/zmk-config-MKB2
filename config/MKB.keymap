@@ -20,8 +20,34 @@
     require-prior-idle-ms = <150>;
 };
 
+/* アナログスティックの物理デバイスを有効化 */
+&adc_stick {
+    status = "okay";
+};
+
 / {
-combos {
+    /* 1. アナログスティック：全レイヤーでスクロールとして動作させる設定 */
+    msc_listener: msc_listener {
+        compatible = "zmk,input-listener";
+        device = <&adc_stick>; 
+
+        /* 上下左右のスクロール割り当て */
+        /* 倒した方向と逆になる場合は、UP/DOWNやLEFT/RIGHTの順序を入れ替えてください */
+        bindings = <&msc SCRL_LEFT>, <&msc SCRL_RIGHT>, <&msc SCRL_UP>, <&msc SCRL_DOWN>;
+    };
+
+    /* 2. エンコーダー：反転と感度向上のためのカスタム動作定義 */
+    behaviors {
+        v_encoder: volume_encoder {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            /* 右回し(DN)と左回し(UP)の記述順を入れ替えて反転 */
+            bindings = <&kp C_VOL_DN>, <&kp C_VOL_UP>; 
+            tap-ms = <10>; // 10msに短縮して反応速度（感度）を向上
+        };
+    };
+
+    combos {
         compatible = "zmk,combos";
         // J + K で左クリック
         combo_lclk {
@@ -57,7 +83,8 @@ combos {
                                    &kp A                                                                       &kp B
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            /* エンコーダー設定をカスタム動作に変更 */
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         function_layer {
@@ -71,7 +98,7 @@ combos {
                                  &kp A                                                      &kp B
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         num_layer {
@@ -85,7 +112,7 @@ combos {
                                            &kp A                                                     &kp B
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         mouse_layer {
@@ -99,7 +126,7 @@ combos {
                              &kp A                                              &kp B
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         scroll_layer {
@@ -113,7 +140,7 @@ combos {
                              &kp A                                              &kp B
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         bt_layer {
@@ -127,7 +154,7 @@ combos {
                                         &kp A                                                                   &kp B
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
     };
 };
