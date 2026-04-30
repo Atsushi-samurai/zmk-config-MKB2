@@ -21,7 +21,7 @@
 };
 
 /* アナログスティックの物理デバイスを有効化 */
-&adc_stick {
+&anin0 {
     status = "okay";
 };
 
@@ -29,7 +29,7 @@
     /* 1. アナログスティック：全レイヤーでスクロールとして動作させる設定 */
     msc_listener: msc_listener {
         compatible = "zmk,input-listener";
-        device = <&adc_stick>; 
+        device = <&anin0>; 
 
         /* 上下左右のスクロール割り当て */
         /* 倒した方向と逆になる場合は、UP/DOWNやLEFT/RIGHTの順序を入れ替えてください */
