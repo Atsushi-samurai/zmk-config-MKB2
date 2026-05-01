@@ -28,6 +28,7 @@
             mv-min-max = <1600>;
             mv-deadzone = <88>;
             scale-multiplier = <1>;
+            /* 感度向上：800から50へ。これでスクロール量が増えます */
             scale-divisor = <50>; 
             invert;
             evt-type = <INPUT_EV_REL>;
@@ -53,13 +54,13 @@
         
         layer0 {
             layers = <0>;
-            /* 修正：制作者のconfに合わせ、標準マウスプロセッサを削除し mapper のみに絞る */
+            /* 修正：制作者と同じく &zip_xy_to_scroll_mapper のみに絞る */
             input-processors = <&zip_xy_to_scroll_mapper>;
         };
 
-        /* マウスレイヤーは一旦無効化するか、mapperで代用 */
         layer1 {
             layers = <1>;
+            /* マウス移動レイヤーも同様に mapper で処理（制作者の設計に準拠） */
             input-processors = <&zip_xy_to_scroll_mapper>;
         };
     };
