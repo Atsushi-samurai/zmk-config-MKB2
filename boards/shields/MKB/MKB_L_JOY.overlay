@@ -10,13 +10,12 @@
 &left_encoder {
     a-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     b-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    /* 修正：1クリックで1反応にするため一般的な24ステップに設定 */
+    /* 改善版：1クリック1反応の解像度 */
     steps = <24>;
     status = "okay";
 };
 
 &sensors {
-    /* 修正：stepsと同じ値にすることで1ノッチ=1入力になります */
     triggers-per-rotation = <24>;
 };
 
@@ -30,6 +29,7 @@
             mv-min-max = <1600>;
             mv-deadzone = <88>;
             scale-multiplier = <1>;
+            /* 感度向上：制作者の800から50に下げてスクロール量を増加 */
             scale-divisor = <50>; 
             invert;
             evt-type = <INPUT_EV_REL>;
@@ -53,11 +53,14 @@
         compatible = "zmk,input-listener";
         device = <&anin0>;
         
+        /* 制作者の意図：レイヤー0ではスクロール動作 */
         layer0 {
             layers = <0>;
-            input-processors = <&zip_xy_to_scroll_mapper>, <&scroll_runtime_input_processor>;
+            /* 修正：カンマを削除し、制作者の記述形式を厳守 */
+            input-processors = <&zip_xy_to_scroll_mapper &scroll_runtime_input_processor>;
         };
 
+        /* 制作者の意図：レイヤー1ではマウス移動動作 */
         layer1 {
             layers = <1>;
             input-processors = <&mouse_runtime_input_processor>;
