@@ -23,25 +23,27 @@
         v_encoder: volume_encoder {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
-            /* 右回し(DN)と左回し(UP) */
             bindings = <&kp C_VOL_DN>, <&kp C_VOL_UP>; 
-            /* 1msは速すぎてOS側で無視される可能性があるため20msに調整 */
+            /* 20msに設定して確実な入力を担保 */
             tap-ms = <20>;
         };
     };
 
     combos {
         compatible = "zmk,combos";
+        // J + K で左クリック
         combo_lclk {
             timeout-ms = <50>;
             key-positions = <19 20>;
             bindings = <&mkp LCLK>;
         };
+        // K + L で右クリック
         combo_rclk {
             timeout-ms = <50>;
             key-positions = <20 21>;
             bindings = <&mkp RCLK>;
         };
+        // J + L でホイールクリック
         combo_mclk {
             timeout-ms = <50>;
             key-positions = <19 21>;
