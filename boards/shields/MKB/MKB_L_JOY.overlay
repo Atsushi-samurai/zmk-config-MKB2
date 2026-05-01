@@ -10,12 +10,14 @@
 &left_encoder {
     a-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     b-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    steps = <80>;
+    /* 修正：1クリックで1反応にするため一般的な24ステップに設定 */
+    steps = <24>;
     status = "okay";
 };
 
 &sensors {
-    triggers-per-rotation = <20>;
+    /* 修正：stepsと同じ値にすることで1ノッチ=1入力になります */
+    triggers-per-rotation = <24>;
 };
 
 / {
@@ -28,14 +30,13 @@
             mv-min-max = <1600>;
             mv-deadzone = <88>;
             scale-multiplier = <1>;
-            scale-divisor = <50>; // 100から50に下げて感度を向上
+            scale-divisor = <50>; 
             invert;
             evt-type = <INPUT_EV_REL>;
             input-code = <INPUT_REL_X>;
         };
         y-ch {
             io-channels = <&adc 3>;
-            mv-mid = <1600>;
             mv-mid = <1600>;
             mv-min-max = <1600>;
             mv-deadzone = <88>;
