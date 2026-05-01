@@ -19,26 +19,14 @@
 };
 
 / {
-    /* 音量変化量を増やすためのマクロ定義 */
-    macros {
-        vol_up_2: vol_up_2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp C_VOL_UP &kp C_VOL_UP>;
-        };
-        vol_dn_2: vol_dn_2 {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&kp C_VOL_DN &kp C_VOL_DN>;
-        };
-    };
-
     behaviors {
         v_encoder: volume_encoder {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
-            bindings = <&vol_dn_2>, <&vol_up_2>; 
-            tap-ms = <1>;
+            /* 右回し(DN)と左回し(UP) */
+            bindings = <&kp C_VOL_DN>, <&kp C_VOL_UP>; 
+            /* 1msは速すぎてOS側で無視される可能性があるため20msに調整 */
+            tap-ms = <20>;
         };
     };
 
