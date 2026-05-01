@@ -23,14 +23,14 @@
 
 / {
 
-    /* 2. エンコーダー：反転と感度向上のためのカスタム動作定義 */
+    /* 2. エンコーダー：感度向上のため tap-ms を調整 */
     behaviors {
         v_encoder: volume_encoder {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             /* 右回し(DN)と左回し(UP)の記述順を入れ替えて反転 */
             bindings = <&kp C_VOL_DN>, <&kp C_VOL_UP>; 
-            tap-ms = <10>; // 10msに短縮して反応速度（感度）を向上
+            tap-ms = <1>; // 10msから1msに短縮して感度を最大化
         };
     };
 
@@ -69,8 +69,7 @@
 &kp LEFT      &kp UP    &kp SPACE  &kp DOWN  &kp RIGHT                                          &kp HOME       &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                    &kp A                                                                       &kp B
             >;
-
-            /* エンコーダー設定をカスタム動作に変更 */
+            /* 修正：sensor-bindings を bindings の内側に配置 */
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -84,7 +83,6 @@
 &kp LEFT   &kp UP     &kp SPACE  &kp DOWN   &kp RIGHT                            &kp HOME   &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                  &kp A                                                      &kp B
             >;
-
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -98,7 +96,6 @@
 &kp LEFT         &kp UP         &kp SPACE  &kp DOWN  &kp RIGHT                            &kp HOME   &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                            &kp A                                                     &kp B
             >;
-
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -112,7 +109,6 @@
 &kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                              &kp A                                              &kp B
             >;
-
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -126,7 +122,6 @@
 &kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                              &kp A                                              &kp B
             >;
-
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -140,7 +135,6 @@
 &kp LEFT    &kp UP        &kp SPACE     &kp DOWN      &kp RIGHT                                       &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                         &kp A                                                                   &kp B
             >;
-
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
     };
