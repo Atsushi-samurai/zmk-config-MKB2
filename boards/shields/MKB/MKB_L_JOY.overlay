@@ -10,11 +10,13 @@
 &left_encoder {
     a-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     b-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    /* 1クリック1反応にするため24ステップに設定 */
     steps = <24>;
     status = "okay";
 };
 
 &sensors {
+    /* stepsと同じ値にすることで1ノッチ=1入力になります */
     triggers-per-rotation = <24>;
 };
 
@@ -28,7 +30,7 @@
             mv-min-max = <1600>;
             mv-deadzone = <88>;
             scale-multiplier = <1>;
-            /* 感度向上：800から50へ。これでスクロール量が増えます */
+            /* 感度向上：値を小さくするほどスクロール量が増えます */
             scale-divisor = <50>; 
             invert;
             evt-type = <INPUT_EV_REL>;
@@ -54,13 +56,12 @@
         
         layer0 {
             layers = <0>;
-            /* 修正：制作者と同じく &zip_xy_to_scroll_mapper のみに絞る */
+            /* 制作者のオリジナル形式：mapperのみを使用 */
             input-processors = <&zip_xy_to_scroll_mapper>;
         };
 
         layer1 {
             layers = <1>;
-            /* マウス移動レイヤーも同様に mapper で処理（制作者の設計に準拠） */
             input-processors = <&zip_xy_to_scroll_mapper>;
         };
     };
