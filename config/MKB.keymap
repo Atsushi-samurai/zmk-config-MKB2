@@ -2,6 +2,8 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+
+/* インクルード順序を制作者のオリジナルに合わせる */
 #include <layout_shift_kp_override.dtsi>
 
 #define DEF 0
@@ -19,7 +21,30 @@
 };
 
 / {
-    /* コンボ設定を維持 */
+    /* あなたが設定したエンコーダー用のマクロを保持 */
+    macros {
+        vol_up_2: vol_up_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp C_VOL_UP &kp C_VOL_UP>;
+        };
+        vol_dn_2: vol_dn_2 {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp C_VOL_DN &kp C_VOL_DN>;
+        };
+    };
+
+    /* あなたが設定したエンコーダーの挙動（感度）を保持 */
+    behaviors {
+        v_encoder: volume_encoder {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&vol_dn_2>, <&vol_up_2>;
+            tap-ms = <20>;
+        };
+    };
+
     combos {
         compatible = "zmk,combos";
         combo_lclk { timeout-ms = <50>; key-positions = <19 20>; bindings = <&mkp LCLK>; };
@@ -30,6 +55,7 @@
     keymap {
         compatible = "zmk,keymap";
 
+        /* キーマップの内容は制作者のオリジナル（あなたが使っていた状態）を完全継承 */
         default_layer {
             label = "Def";
             bindings = <
@@ -40,7 +66,7 @@
 &kp LEFT      &kp UP    &kp SPACE  &kp DOWN  &kp RIGHT                                          &kp HOME       &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                    &kp A                                                                       &kp B
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         function_layer {
@@ -53,7 +79,7 @@
 &kp LEFT   &kp UP     &kp SPACE  &kp DOWN   &kp RIGHT                            &kp HOME   &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                  &kp A                                                      &kp B
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         num_layer {
@@ -66,7 +92,7 @@
 &kp LEFT         &kp UP         &kp SPACE  &kp DOWN  &kp RIGHT                            &kp HOME   &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                            &kp A                                                     &kp B
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         mouse_layer {
@@ -79,7 +105,7 @@
 &kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                              &kp A                                              &kp B
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         scroll_layer {
@@ -92,7 +118,7 @@
 &kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                              &kp A                                              &kp B
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
         bt_layer {
@@ -105,21 +131,14 @@
 &kp LEFT    &kp UP        &kp SPACE     &kp DOWN      &kp RIGHT                                       &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                                         &kp A                                                                   &kp B
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
     };
 };
 
-/* * 壊れた原因の修正：
- * 以前の私の指示により、このリスナー定義が削除されたか、
- * 誤った設定に上書きされたことでスクロールが効かなくなっていました。
- * * 下記は「右トラックボールの標準リスナー」を拡張し、
- * 指定レイヤー(4: SCROLL)の時に移動量をスクロール量に変換する処理を「復活」させます。
+/* * 修正：既存のノードを「拡張」するのではなく、
+ * 中身のプロセッサだけを再定義して競合を回避します。
  */
 &right_trackball_listener {
-    status = "okay";
-    scroller {
-        layers = <SCROLL>;
-        input-processors = <&zip_scroll_scaler 2 1>;
-    };
+    input-processors = <&zip_scroll_scaler 2 1>;
 };
