@@ -131,7 +131,5 @@
     };
 };
 
-/* 169行目以降：制作者が本来ハードウェア層で定義していた命令を明示的に復元します */
-&right_trackball_listener {
-    input-processors = <&zip_scroll_scaler 2 1>;
+
 };
