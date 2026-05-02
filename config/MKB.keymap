@@ -127,6 +127,10 @@
                                         &kp A                                                                   &kp B
             >;
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
-        };
+};
     };
+};
+
+&right_trackball_listener {
+    input-processors = <&zip_scroll_scaler 2 1>;
 };
