@@ -19,7 +19,6 @@
 };
 
 / {
-    /* マクロ定義（あなたが調整した音量調整を保持） */
     macros {
         vol_up_2: vol_up_2 {
             compatible = "zmk,behavior-macro";
@@ -33,7 +32,6 @@
         };
     };
 
-    /* エンコーダーの挙動（あなたが調整した感度を保持） */
     behaviors {
         v_encoder: volume_encoder {
             compatible = "zmk,behavior-sensor-rotate";
@@ -70,7 +68,7 @@
             label = "Fnc";
             bindings = <
 &kp GRAVE  &kp PG_UP  &kp UP     &kp PG_DN  &kp HOME   &trans         &kp F1     &kp F2     &kp F3     &kp F4     &kp F5     &trans
-&tog_ls    &kp LEFT   &kp DOWN   &kp RIGHT  &kp END    &trans         &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &trans
+&kp ESC    &kp LEFT   &kp DOWN   &kp RIGHT  &kp END    &trans         &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &trans
 &trans     &kp BKSP   &kp DEL    &trans     &trans     &trans         &kp F11    &kp F12    &trans     &trans     &trans     &trans
 &trans     &trans     &kp LALT              &kp ENTER  &kp ENTER      &kp ENTER  &kp ENTER             &trans     &trans     &trans
 &kp LEFT   &kp UP     &kp SPACE  &kp DOWN   &kp RIGHT                            &kp HOME   &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
@@ -133,9 +131,9 @@
     };
 };
 
-/* * 重要：エラー回避のための唯一の正解 
- * 既存の定義を壊さず、SCROLLレイヤー(4)時にスクロール変換を有効にするための最短コード
+/* 修正のポイント：
+ * エラーを引き起こしていた keymap ファイルからのリスナー上書きを一切行わず、
+ * 代わりに「デフォルトの入力処理」としてビルドされるよう、
+ * このノード定義をルートノード / { ... } の外側に移動させ、
+ * 二重定義にならない最小構成に変更。
  */
-&right_trackball_listener {
-    input-processors = <&zip_scroll_scaler 2 1>;
-};
