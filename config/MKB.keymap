@@ -2,6 +2,8 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
+
+/* リポジトリ依存のインクルード */
 #include <layout_shift_kp_override.dtsi>
 
 #define DEF 0
@@ -19,7 +21,6 @@
 };
 
 / {
-    /* 音量の変化量を増やすマクロ定義 */
     macros {
         vol_up_2: vol_up_2 {
             compatible = "zmk,behavior-macro";
@@ -69,7 +70,7 @@
             label = "Fnc";
             bindings = <
                 &kp GRAVE  &kp PG_UP  &kp UP     &kp PG_DN  &kp HOME   &trans         &kp F1     &kp F2     &kp F3     &kp F4     &kp F5     &trans
-                &tog_ls    &kp LEFT   &kp DOWN   &kp RIGHT  &kp END    &trans         &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &trans
+                &kp ESC    &kp LEFT   &kp DOWN   &kp RIGHT  &kp END    &trans         &kp F6     &kp F7     &kp F8     &kp F9     &kp F10    &trans
                 &trans     &kp BKSP   &kp DEL    &trans     &trans     &trans         &kp F11    &kp F12    &trans     &trans     &trans     &trans
                 &trans     &trans     &kp LALT              &kp ENTER  &kp ENTER      &kp ENTER  &kp ENTER             &trans     &trans     &trans
                 &kp LEFT   &kp UP     &kp SPACE  &kp DOWN   &kp RIGHT                            &kp HOME   &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
@@ -114,7 +115,6 @@
                 &kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
                 &kp A                                              &kp B
             >;
-            /* ここはオリジナルの設定を維持（ボリューム調整） */
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
@@ -133,13 +133,11 @@
     };
 };
 
-/* * トラックボール入力をスクロールに変換する定義をここに追加 
- * これがないと SCROLLレイヤーに切り替わっても移動のままになります
- */
+/* 修正点: / { ... } ノードの外側に記述し、既存定義を拡張する */
 &right_trackball_listener {
     status = "okay";
     scroller {
-        layers = <SCROLL>; // 上で定義した SCROLL (4) レイヤーで動作
+        layers = <SCROLL>;
         input-processors = <&zip_scroll_scaler 2 1>;
     };
 };
