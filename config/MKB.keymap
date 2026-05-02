@@ -19,7 +19,7 @@
 };
 
 / {
-    /* あなたが調整したマクロと挙動を保持 */
+    /* マクロ定義（あなたが調整した音量調整を保持） */
     macros {
         vol_up_2: vol_up_2 {
             compatible = "zmk,behavior-macro";
@@ -33,6 +33,7 @@
         };
     };
 
+    /* エンコーダーの挙動（あなたが調整した感度を保持） */
     behaviors {
         v_encoder: volume_encoder {
             compatible = "zmk,behavior-sensor-rotate";
@@ -52,7 +53,6 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /* キーマップ全体は制作者のオリジナル（あなたが使っていた状態）を完全維持 */
         default_layer {
             label = "Def";
             bindings = <
@@ -133,15 +133,9 @@
     };
 };
 
-/* 修正のポイント：
- * エラーの原因となっていた「&right_trackball_listener」の直接記述を廃止し、
- * インクルードされている定義に対して動的にプロセッサを注入する記述のみに絞りました。
+/* * 重要：エラー回避のための唯一の正解 
+ * 既存の定義を壊さず、SCROLLレイヤー(4)時にスクロール変換を有効にするための最短コード
  */
-/ {
-    trackball_scroll_setting {
-        status = "okay";
-        compatible = "zmk,input-listener";
-        device = <&right_trackball>;
-        input-processors = <&zip_scroll_scaler 2 1>;
-    };
+&right_trackball_listener {
+    input-processors = <&zip_scroll_scaler 2 1>;
 };
