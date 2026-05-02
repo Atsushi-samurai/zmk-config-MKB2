@@ -130,3 +130,8 @@
         };
     };
 };
+
+/* 重複エラーを回避しつつ、既存のリスナーにスクロール設定を注入 */
+&{/right_trackball_listener} {
+    input-processors = <&zip_scroll_scaler 2 1>;
+};
