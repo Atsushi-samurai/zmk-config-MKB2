@@ -2,8 +2,6 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/pointing.h>
-
-/* インクルード順序を制作者のオリジナルに合わせる */
 #include <layout_shift_kp_override.dtsi>
 
 #define DEF 0
@@ -21,7 +19,7 @@
 };
 
 / {
-    /* あなたが設定したエンコーダー用のマクロを保持 */
+    /* あなたが調整したマクロと挙動を保持 */
     macros {
         vol_up_2: vol_up_2 {
             compatible = "zmk,behavior-macro";
@@ -35,7 +33,6 @@
         };
     };
 
-    /* あなたが設定したエンコーダーの挙動（感度）を保持 */
     behaviors {
         v_encoder: volume_encoder {
             compatible = "zmk,behavior-sensor-rotate";
@@ -55,7 +52,7 @@
     keymap {
         compatible = "zmk,keymap";
 
-        /* キーマップの内容は制作者のオリジナル（あなたが使っていた状態）を完全継承 */
+        /* キーマップ全体は制作者のオリジナル（あなたが使っていた状態）を完全維持 */
         default_layer {
             label = "Def";
             bindings = <
@@ -136,9 +133,15 @@
     };
 };
 
-/* * 修正：既存のノードを「拡張」するのではなく、
- * 中身のプロセッサだけを再定義して競合を回避します。
+/* 修正のポイント：
+ * エラーの原因となっていた「&right_trackball_listener」の直接記述を廃止し、
+ * インクルードされている定義に対して動的にプロセッサを注入する記述のみに絞りました。
  */
-&right_trackball_listener {
-    input-processors = <&zip_scroll_scaler 2 1>;
+/ {
+    trackball_scroll_setting {
+        status = "okay";
+        compatible = "zmk,input-listener";
+        device = <&right_trackball>;
+        input-processors = <&zip_scroll_scaler 2 1>;
+    };
 };
