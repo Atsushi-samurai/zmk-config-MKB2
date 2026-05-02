@@ -127,10 +127,19 @@
                                         &kp A                                                                   &kp B
             >;
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
-};
+        };
     };
 };
 
-&right_trackball_listener {
-    input-processors = <&zip_scroll_scaler 2 1>;
+/* 131行目以降: 既存のノードを壊さず、設定だけをマージする書き方 */
+/ {
+    trackball_peripheral_listener: trackball_peripheral_listener {
+        compatible = "zmk,input-behavior-listener";
+        device = <&vtrackball>;
+        layers = <SCROLL>;
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+        bindings = <&zip_scroll_scaler 2 1>;
+    };
 };
