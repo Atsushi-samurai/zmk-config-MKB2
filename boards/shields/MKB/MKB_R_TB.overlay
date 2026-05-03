@@ -17,7 +17,6 @@
     };
 };
 
-
 &spi0 {
     status = "okay";
     cs-gpios =  <&xiao_d 7 GPIO_ACTIVE_LOW>;
@@ -40,7 +39,6 @@
     };
 };
 
-/* input-split */
 / {
     split_inputs {
         #address-cells = <1>;
@@ -54,13 +52,10 @@
         };
     };
 
-trackball_listener: trackball_listener {
+    trackball_listener: trackball_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&trackball_split>;
-        
-        /* 0から7まで全てを指定。これで「どこかのレイヤー」では必ず動きます */
-        layers = <0 1 2 3 4 5 6 7>; 
-        
+        layers = <0 1 2 3 4 5 6 7>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
@@ -76,4 +71,5 @@ trackball_listener: trackball_listener {
             map-input-code = <INPUT_REL_HWHEEL>;
             bindings = <&zip_scroll_scaler 2 1>;
         };
-    };　/* ファイル全体の閉じ（root の閉じ） */
+    };
+};　/* ファイル全体の閉じ（root の閉じ） */
