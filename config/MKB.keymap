@@ -40,11 +40,11 @@ behaviors {
             tap-ms = <20>;
         };
 
-        /* これを追加：&ibp という名前を使えるようにする定義 */
-        ibp: input_behavior_processor {
-            compatible = "zmk,behavior-input-two-arguments";
-            #binding-cells = <2>;
-            bindings = <&input_processor_activate>;
+        /* 特殊な ibp ではなく、標準的なマクロで scroll_mode を直接呼び出す */
+        scr_on: scr_on {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &scroll_mode>;
         };
     };
 
@@ -114,7 +114,7 @@ scroll_layer {
             label = "Scr";
             bindings = <
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans    &trans     &trans     &trans     &trans
-&trans    &trans  &trans     &trans    &trans     &trans      &trans  &ibp 0 0  &mkp MB3   &mkp MB2  &trans     &trans
+&trans    &trans  &trans     &trans    &trans     &trans      &trans  &scr_on   &mkp MB3   &mkp MB2  &trans     &trans
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans    &trans     &trans     &trans     &trans
 &trans    &trans  &trans               &trans     &trans      &trans  &trans               &trans     &trans     &trans
 &kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
