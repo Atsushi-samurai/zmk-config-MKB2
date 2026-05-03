@@ -52,7 +52,7 @@
         };
     };
 
-    /* スクロール挙動の定義（名前：scroll_mode） */
+    /* スクロール設定の「定義」だけを残す。リスナーは不要なので削除 */
     scroll_mode: scroll_mode {
         compatible = "zmk,input-processor-temp-setting";
         #input-processor-cells = <0>;
