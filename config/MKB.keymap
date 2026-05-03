@@ -40,12 +40,14 @@
             tap-ms = <20>;
         };
 
-        /* 引数なしで動作する可能性が高い形式に修正 */
-        tb_scr: tb_scr {
-            compatible = "zmk,behavior-input-two-arguments";
-            #binding-cells = <2>;
-            bindings = <&input_processor_activate>;
+        /* マクロにより Overlay の scroll_mode を直接実行 */
+#ifdef MKB_R_TB
+        scr_on: scr_on {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_tap &scroll_mode>;
         };
+#endif
     };
 
     combos {
@@ -114,26 +116,5 @@
             label = "Scr";
             bindings = <
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans       &trans     &trans     &trans     &trans
-&trans    &trans  &trans     &trans    &trans     &trans      &trans  &tb_scr 0 0  &mkp MB3   &mkp MB2   &trans     &trans
-&trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans       &trans     &trans     &trans     &trans
-&trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans       &trans     &trans     &trans     &trans
-&kp LEFT  &kp UP  &kp SPACE  &kp DOWN  &kp RIGHT                      &kp HOME     &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
-                             &kp A                                                 &kp B
-            >;
-            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
-        };
-
-        bt_layer {
-            label = "BT";
-            bindings = <
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4      &bt BT_CLR_ALL  &trans    &trans     &trans     &trans     &trans
-&trans      &trans        &trans        &trans        &trans        &trans            &trans          &trans    &trans     &trans     &trans     &trans
-&trans      &trans        &trans        &trans        &trans        &trans            &trans          &trans    &trans     &trans     &trans     &trans
-&trans      &trans        &trans                      &trans        &trans            &trans          &trans               &trans     &trans     &trans
-&kp LEFT    &kp UP        &kp SPACE     &kp DOWN      &kp RIGHT                                       &kp HOME  &kp PG_UP  &kp ENTER  &kp PG_DN  &kp END
-                                        &kp A                                                                   &kp B
-            >;
-            sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
-        };
-    };
-};
+&trans    &trans  &trans     &trans    &trans     &trans      &trans  
+#ifdef MKB_R_TB
