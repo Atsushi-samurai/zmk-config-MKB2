@@ -105,8 +105,13 @@ behaviors {
 
 scroll_layer {
             label = "Scr";
-            /* インデックス番号を使わずにレイヤー単位で機能を確定させる */
+            
+            /* * 右手側（MKB_R_TB等）のビルド時のみ、トラックボールの設定を読み込む。
+             * これにより、左手側のビルドで「未定義ラベルエラー」が出るのを物理的に防ぎます。
+             */
+#ifdef MKB_R_TB
             input-processors = <&trackball_split &scroll_mode>;
+#endif
 
             bindings = <
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans    &trans     &trans     &trans     &trans
