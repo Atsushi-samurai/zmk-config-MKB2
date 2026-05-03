@@ -61,3 +61,6 @@
     };
 
 };
+&trackball_listener {
+    input-processors = <&zip_scroll_scaler 2 1>;
+};
