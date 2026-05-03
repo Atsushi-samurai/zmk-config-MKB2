@@ -59,5 +59,15 @@
         status = "okay";
         device = <&trackball_split>;
     };
-
+/ {
+    trackball_peripheral_listener: trackball_peripheral_listener {
+        compatible = "zmk,input-behavior-listener";
+        device = <&vtrackball>;
+        layers = <4>;
+        evt-type = <INPUT_EV_REL>;
+        x-input-code = <INPUT_REL_X>;
+        y-input-code = <INPUT_REL_Y>;
+        bindings = <&zip_scroll_scaler 2 1>;
+    };
+};
 };
