@@ -58,7 +58,8 @@
     trackball_listener: trackball_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&trackball_split>;
-        layers = <128>;
+        layers = <4>;
+　　　　　status = "okay";
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
