@@ -54,10 +54,12 @@
         };
     };
 
-    trackball_listener: trackball_listener {
+trackball_listener: trackball_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&trackball_split>;
-        /* layers を一旦削除。これでビルドエラーと勝手な発動を防ぎます */
+        
+        /* 0から7まで全てを指定。これで「どこかのレイヤー」では必ず動きます */
+        layers = <0 1 2 3 4 5 6 7>; 
         
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
@@ -74,5 +76,4 @@
             map-input-code = <INPUT_REL_HWHEEL>;
             bindings = <&zip_scroll_scaler 2 1>;
         };
-    };
-}; /* ファイル全体の閉じ（root の閉じ） */
+    };　/* ファイル全体の閉じ（root の閉じ） */
