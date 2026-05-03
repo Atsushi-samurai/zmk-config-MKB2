@@ -40,7 +40,7 @@
     };
 };
 
-/*input-split*/
+/* input-split */
 / {
     split_inputs {
         #address-cells = <1>;
@@ -54,24 +54,24 @@
         };
     };
 
-trackball_listener: trackball_listener {
+    /* ここ：root ノード (/) の中に含める必要があります */
+    trackball_listener: trackball_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&trackball_split>;
-        layers = <5>;  /* 前回の修正でSCROLLレイヤーに合わせた番号 */
+        layers = <5>;
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
         bindings = <&zip_scroll_scaler 2 1>;
 
-        /* 既存のY軸（垂直）用 */
         y-handler {
             input-code = <INPUT_REL_Y>;
             bindings = <&zip_scroll_scaler 2 1>;
         };
 
-        /* 以下の X軸（水平）用を追加 */
         x-handler {
             input-code = <INPUT_REL_X>;
             bindings = <&zip_scroll_scaler 2 1>;
         };
     };
+}; /* ファイル全体の閉じ（root の閉じ） */
