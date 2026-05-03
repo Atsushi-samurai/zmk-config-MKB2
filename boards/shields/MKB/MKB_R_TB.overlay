@@ -69,8 +69,10 @@
             bindings = <&zip_scroll_scaler 2 1>;
         };
 
-        x-handler {
+x-handler {
             input-code = <INPUT_REL_X>;
+            /* 左右移動を水平スクロールとして扱うための明示的な型指定 */
+            map-input-code = <INPUT_REL_HWHEEL>;
             bindings = <&zip_scroll_scaler 2 1>;
         };
     };
