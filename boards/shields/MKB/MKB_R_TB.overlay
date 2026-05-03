@@ -62,6 +62,11 @@ trackball_listener: trackball_listener {
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
         bindings = <&zip_scroll_scaler 2 1>;
-    };
 
+        /* 以下の 3行が、スクロールを発動させるために物理的に必須です */
+        y-handler {
+            input-code = <INPUT_REL_Y>;
+            bindings = <&zip_scroll_scaler 2 1>;
+        };
+    };
 };
