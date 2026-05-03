@@ -54,13 +54,6 @@
         };
     };
 
-    trackball_listener: trackball_listener {
-        compatible = "zmk,input-listener";
-        status = "okay";
-        device = <&trackball_split>;
-    };
-
-};
 trackball_listener: trackball_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&trackball_split>;
@@ -69,4 +62,6 @@ trackball_listener: trackball_listener {
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
         bindings = <&zip_scroll_scaler 2 1>;
-    }; /*
+    };
+
+};
