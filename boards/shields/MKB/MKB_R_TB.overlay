@@ -54,12 +54,11 @@
         };
     };
 
-    /* ここ：root ノード (/) の中に含める必要があります */
     trackball_listener: trackball_listener {
         compatible = "zmk,input-behavior-listener";
         device = <&trackball_split>;
-        layers = <4>;
-　　　　　status = "okay";
+        /* layers を一旦削除。これでビルドエラーと勝手な発動を防ぎます */
+        
         evt-type = <INPUT_EV_REL>;
         x-input-code = <INPUT_REL_X>;
         y-input-code = <INPUT_REL_Y>;
@@ -70,9 +69,8 @@
             bindings = <&zip_scroll_scaler 2 1>;
         };
 
-x-handler {
+        x-handler {
             input-code = <INPUT_REL_X>;
-            /* 左右移動を水平スクロールとして扱うための明示的な型指定 */
             map-input-code = <INPUT_REL_HWHEEL>;
             bindings = <&zip_scroll_scaler 2 1>;
         };
