@@ -105,11 +105,8 @@
 
 scroll_layer {
             label = "Scr";
-            /* * ここが核心です。
-             * このレイヤーがアクティブな時のみ、&trackball に対して
-             * overlayで定義した scroll_mode (スクロール化) を強制適用します。
-             */
-            activate-input-processors = <&trackball &scroll_mode>;
+            /* 一旦これをコメントアウトしてビルドが通るか確認 */
+            /* activate-input-processors = <&trackball &scroll_mode>; */
 
             bindings = <
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans    &trans     &trans     &trans     &trans
