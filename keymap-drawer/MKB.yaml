@@ -256,7 +256,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - '&ibp 0 0'
+  - '&scr_on'
   - '&mkp MB3'
   - '&mkp MB2'
   - {t: ▽, type: trans}
