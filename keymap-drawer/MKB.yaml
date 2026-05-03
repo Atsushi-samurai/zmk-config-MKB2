@@ -256,7 +256,7 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
-  - '&ibp trackball scroll_mode'
+  - '&ibp 0 0'
   - '&mkp MB3'
   - '&mkp MB2'
   - {t: ▽, type: trans}
