@@ -39,6 +39,16 @@ behaviors {
             bindings = <&vol_dn_2>, <&vol_up_2>;
             tap-ms = <20>;
         };
+        behaviors {
+        /* 省略（v_encoder等） */
+
+        /* トラックボールを一時的にスクロールモードにするキー定義 */
+        tb_scr: tb_scr {
+            compatible = "zmk,behavior-input-two-arguments";
+            #binding-cells = <2>;
+            bindings = <&input_processor_activate>;
+        };
+    };
     };
 
     combos {
@@ -103,18 +113,12 @@ behaviors {
             sensor-bindings = <&v_encoder &inc_dec_kp PG_UP PG_DN>;
         };
 
-scroll_layer {
+        scroll_layer {
             label = "Scr";
-            
-            /* * 右手側（MKB_R_TB等）のビルド時のみ、トラックボールの設定を読み込む。
-             * これにより、左手側のビルドで「未定義ラベルエラー」が出るのを物理的に防ぎます。
-             */
-#ifdef MKB_R_TB
-            input-processors = <&trackball_split &scroll_mode>;
-#endif
-
             bindings = <
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans    &trans     &trans     &trans     &trans
+/* &tb_scr 0 0 を MB1 等に重ねて配置します */
+&trans    &trans  &trans     &trans    &trans     &trans      &trans  &lt_tb_scr 0 0   &mkp MB3   &mkp MB2  &trans     &trans
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &mkp MB1   &mkp MB3   &mkp MB2  &trans     &trans
 &trans    &trans  &trans     &trans    &trans     &trans      &trans  &trans    &trans     &trans     &trans     &trans
 &trans    &trans  &trans               &trans     &trans      &trans  &trans               &trans     &trans     &trans
