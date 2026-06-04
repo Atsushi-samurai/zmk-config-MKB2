@@ -1,6 +1,6 @@
 ---
 include:
-# Pin runtime input processor before its ZMK v4 migration for this ZMK v0.3-based build.
+# Pin cormoran modules before their ZMK v4 migrations for this ZMK v0.3-based build.
 # Left Shields / Default - with AML
   - board: seeeduino_xiao_ble
     shield: MKB_L_Base MKB_L_TB rgbled_adapter nice_oled
