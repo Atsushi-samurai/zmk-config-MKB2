@@ -53,6 +53,7 @@
             status = "okay";
             device = <&glidepoint_R>;
             reg = <0>;
+            input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)>;
         };
     };
 
@@ -60,7 +61,5 @@
         compatible = "zmk,input-listener";
         status = "okay";
         device = <&trackpad_split>;
-        input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)>,
-                           <&zip_scroll_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)>;
     };
 };
