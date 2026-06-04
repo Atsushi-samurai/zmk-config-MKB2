@@ -1,6 +1,6 @@
 ---
 include:
-# Changes under snippets/ also affect module builds via snippet overlays.
+# Snippet overlays affect module builds; keep this file touched when rebuilding snippet-only changes.
 # Left Shields / Default - with AML
   - board: seeeduino_xiao_ble
     shield: MKB_L_Base MKB_L_TB rgbled_adapter nice_oled

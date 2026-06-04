@@ -62,7 +62,7 @@
         device = <&trackpad_split>;
 
         input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)>,
-                           <&mouse_runtime_input_processor>,
+                           <&mouse_runtime_input_processor &scroll_runtime_input_processor>,
                            <&zip_xy_scaler 1 2>;
 
         scroller {
