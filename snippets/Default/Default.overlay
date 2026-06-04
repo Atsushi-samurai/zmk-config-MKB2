@@ -63,15 +63,13 @@
 
         input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)>,
                            <&mouse_runtime_input_processor>,
-                           <&zip_xy_scaler 1 2>,
-                           <&zip_scroll_scaler 1 50>;
+                           <&zip_xy_scaler 1 2>;
 
         scroller {
             layers = <4>;
             input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP)>,
                                <&zip_xy_to_scroll_mapper>,
-                               <&scroll_runtime_input_processor>,
-                               <&zip_scroll_scaler 1 50>;
+                               <&scroll_runtime_input_processor>;
         };
     };
 };
