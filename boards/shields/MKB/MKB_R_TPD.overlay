@@ -17,6 +17,9 @@
 
             sensitivity = "2x";
             // sleep;
+            absolute-gestures;
+            y-invert;
+            pointer-divisor = <1>;
             no-taps;
         };
 };
@@ -52,5 +55,12 @@
             device = <&glidepoint_R>;
             reg = <3>;
         };
+
+    };
+
+    trackpad_listener: trackpad_listener {
+        compatible = "zmk,input-listener";
+        status = "okay";
+        device = <&trackpad_split>;
     };
 };
