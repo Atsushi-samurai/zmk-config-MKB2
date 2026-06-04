@@ -17,9 +17,6 @@
 
             sensitivity = "2x";
             // sleep;
-            absolute-gestures;
-            y-invert;
-            pointer-divisor = <1>;
             no-taps;
         };
 };
@@ -27,16 +24,16 @@
 &pinctrl {
     i2c0_default: i2c0_default {
         group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0,  5)>,
-                    <NRF_PSEL(TWIM_SCL, 0,  4)>;
+            psels = <NRF_PSEL(TWIM_SDA, 0,  4)>,
+                    <NRF_PSEL(TWIM_SCL, 0,  5)>;
             bias-pull-up;
         };
     };
 
     i2c0_sleep: i2c0_sleep {
         group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 0,  5)>,
-                    <NRF_PSEL(TWIM_SCL, 0,  4)>;
+            psels = <NRF_PSEL(TWIM_SDA, 0,  4)>,
+                    <NRF_PSEL(TWIM_SCL, 0,  5)>;
             low-power-enable;
             bias-pull-up;
         };
@@ -49,13 +46,12 @@
         #address-cells = <1>;
         #size-cells = <0>;
 
-        trackpad_split: trackpad_split@3 {
+        trackpad_split: trackpad_split@0 {
             compatible = "zmk,input-split";
             status = "okay";
             device = <&glidepoint_R>;
-            reg = <3>;
+            reg = <0>;
         };
-
     };
 
     trackpad_listener: trackpad_listener {

@@ -43,9 +43,9 @@
             reg = <2>;
         };
 
-        trackpad_split: trackpad_split@3 {
+        trackpad_split: trackpad_split@0 {
             compatible = "zmk,input-split";
-            reg = <3>;
+            reg = <0>;
         };
     };
 
@@ -72,7 +72,7 @@
             , <&gpio0  10 (GPIO_ACTIVE_HIGH)>
             ;
     };
-    
+
     kscan2: kscan2 {
         compatible = "zmk,kscan-mock";
         columns = <0>;
@@ -87,8 +87,8 @@
     pinctrl-0 = <&i2c1_default>;
     pinctrl-1 = <&i2c1_sleep>;
     pinctrl-names = "default", "sleep";
-    clock-frequency = <100000>; 
-    
+    clock-frequency = <100000>;
+
     oled: ssd1306@3c {
         compatible = "solomon,ssd1306fb";
         reg = <0x3c>;
