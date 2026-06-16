@@ -1,15 +1,16 @@
 /* EC11エンコーダー単体診断 — I2C/PAT9125 完全排除
  *
- * te9no TBENC branch のピン設定を使用:
- *   A = gpio1 0 (P1.00), B = gpio1 10 (P1.10)
+ * module-debugger (taichan1113) EC11スニペット準拠:
+ *   A = xiao_d 8 = P1.13, B = xiao_d 7 = P1.12
+ * te9no の P1.00/P1.10 はXIAO BLE外部パッドに出ていないため使用不可。
  *
  * triggers-per-rotation = 1 で1ノッチでもPG_UP/PG_DN発生。
  * BLEで右手(Central)経由でPCに届けばハードウェア接続確認済み。
  */
 
 &left_encoder {
-    a-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    b-gpios = <&gpio1 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    a-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
     steps = <24>;
     status = "okay";
 };
