@@ -16,6 +16,8 @@ manifest:
       url-base: https://github.com/petejohanson
     - name: cormoran
       url-base: https://github.com/cormoran
+    - name: taichan1113
+      url-base: https://github.com/taichan1113
   projects:
     - name: zmk
       # remote: zmkfirmware
@@ -46,6 +48,12 @@ manifest:
     - name: zmk-driver-MLX90393
       remote: te9no
       revision: main
+    - name: zmk-input-processor-report-rate-limit
+      remote: badjeff
+      revision: b056cb135525933743e2627150fb390f9d4b2461
+    - name: zmk-driver-pat9125
+      remote: taichan1113
+      revision: f5c1937a93e534ed55ed40fb8d8d2ea075692858
 
     - name: zmk-module-runtime-input-processor
       remote: cormoran
@@ -62,5 +70,4 @@ manifest:
 
   self:
     path: config
-
 
