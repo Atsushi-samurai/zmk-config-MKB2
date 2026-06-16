@@ -1,0 +1,30 @@
+#include <input/processors/report_rate_limit.dtsi>
+
+/ {
+    trackball_listener2: trackball_listener2 {
+        compatible = "zmk,input-listener";
+        device = <&trackball2>;
+        status = "okay";
+        input-processors = <&zip_report_rate_limit 16>,
+                           <&zip_keybind_keys>;
+    };
+};
+
+&i2c1 {
+    status = "okay";
+
+    trackball2: trackball2@79 {
+        status = "okay";
+        compatible = "pixart,pat9125";
+        reg = <0x79>; /* HIGH:0x73, LOW:0x75, NC:0x79 */
+        motion-gpios = <&gpio1 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        res-x-cpi = <300>;
+        res-y-cpi = <300>;
+        zephyr,axis-x = <INPUT_REL_Y>;
+        zephyr,axis-y = <INPUT_REL_X>;
+        invert-x;
+        invert-y;
+        sleep1-enable;
+        sleep2-enable;
+    };
+};

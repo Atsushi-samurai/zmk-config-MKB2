@@ -49,3 +49,9 @@ config SHIELD_MKB_L_TBENC
 
 config SHIELD_MKB_L_TBENC_DIAG
     def_bool $(shields_list_contains,MKB_L_TBENC_DIAG)
+
+config SHIELD_MKB_L_TBENC_PAT_DIAG
+    def_bool $(shields_list_contains,MKB_L_TBENC_PAT_DIAG)
+
+config SHIELD_MKB_L_TBENC_ENC_DIAG
+    def_bool $(shields_list_contains,MKB_L_TBENC_ENC_DIAG)
