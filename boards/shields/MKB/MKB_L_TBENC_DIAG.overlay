@@ -1,34 +1,33 @@
-/* 診断用ファーム: トラックボールをkeybind出力、エンコーダーをtriggers=1で検出
+/* 診断用ファーム (te9no TBENC branch準拠)
  *
- * 書き込んで確認する内容:
- * - トラックボール: テキスト入力欄でカーソルが上下左右に動けばPAT9125正常
- * - エンコーダー:   1クリックでvolume up/downが反応すれば正常
+ * トラックボール → keybind (上下左右キー) で動作確認
+ * エンコーダー  → triggers-per-rotation=1 で1クリック単位確認
  *
- * PAT9125: i2c1 (nrf-twim), address=0x79, motion=P0.05
- * EC11:    A=gpio1 13 (P1.13 / D8), B=gpio1 12 (P1.12 / D7), steps=60
+ * PAT9125: i2c0 (nrf-twim), SDA=P1.13(D8), SCL=P0.04(D4), motion=P0.05(D5)
+ * EC11:    A=gpio1 0 (P1.00), B=gpio1 10 (P1.10), steps=24
  */
 
-&i2c1 {
-    compatible = "nordic,nrf-twim";
+&pinctrl {
+    i2c0_default: i2c0_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
+        };
+    };
 
-    trackball2: trackball2@79 {
-        status = "okay";
-        compatible = "pixart,pat9125";
-        reg = <0x79>; /* HIGH:0x73, LOW:0x75, NC:0x79 */
-        motion-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-        res-x-cpi = <300>;
-        res-y-cpi = <300>;
-        zephyr,axis-x = <INPUT_REL_Y>;
-        zephyr,axis-y = <INPUT_REL_X>;
-        invert-x;
-        invert-y;
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
+            low-power-enable;
+        };
     };
 };
 
 &left_encoder {
-    a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    b-gpios = <&gpio1 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    steps = <60>;
+    a-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&gpio1 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    steps = <24>;
     status = "okay";
 };
 
@@ -42,5 +41,25 @@
         device = <&trackball2>;
         status = "okay";
         input-processors = <&zip_keybind_keys>;
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    compatible = "nordic,nrf-twim";
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    trackball2: trackball2@79 {
+        status = "okay";
+        compatible = "pixart,pat9125";
+        reg = <0x79>; /* HIGH:0x73, LOW:0x75, NC:0x79 */
+        motion-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        res-x-cpi = <300>;
+        res-y-cpi = <300>;
+        zephyr,axis-x = <INPUT_REL_X>;
+        zephyr,axis-y = <INPUT_REL_Y>;
+        invert-y;
     };
 };
