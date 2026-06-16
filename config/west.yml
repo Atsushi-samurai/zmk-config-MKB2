@@ -50,7 +50,7 @@ manifest:
       revision: main
     - name: zmk-input-processor-report-rate-limit
       remote: badjeff
-      revision: b056cb135525933743e2627150fb390f9d4b2461
+      revision: f43f37aae7aaa7bf0ec4d432683b873a7e3a8efa
     - name: zmk-driver-pat9125
       remote: taichan1113
       revision: f5c1937a93e534ed55ed40fb8d8d2ea075692858
@@ -70,4 +70,3 @@ manifest:
 
   self:
     path: config
-
