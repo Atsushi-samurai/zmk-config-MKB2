@@ -1,29 +1,15 @@
-#include <input/processors/report_rate_limit.dtsi>
-
-&left_encoder {
-    a-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    b-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    steps = <24>;
-    status = "okay";
-};
-
-&sensors {
-    triggers-per-rotation = <10>;
-};
-
-/ {
-    trackball_listener2: trackball_listener2 {
-        compatible = "zmk,input-listener";
-        device = <&trackball2>;
-        status = "okay";
-        input-processors = <&zip_report_rate_limit 16>,
-                           <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
-                           <&zip_xy_to_scroll_mapper &scroll_runtime_input_processor>;
-    };
-};
+/* module-debugger (Atsushi-samurai/module-debugger) を正として実装。
+ *
+ * PAT9125: i2c1 (nrf-twim), address=0x79, motion=P0.05 (MeKaBu光学センサー用IRQパッド)
+ * EC11:    A=gpio1 13 (P1.13 / D8), B=gpio1 12 (P1.12 / D7), steps=60
+ *
+ * note: module-debugger PAT9125 snippetはP1.13をmotionに使うが、
+ *       MeKaBu統合版ではEC11 A-phaseのP1.13と衝突するため、
+ *       MeKaBuの光学センサー専用IRQパッドP0.05 (TB moduleのirq-gpiosと同じ) を使用。
+ */
 
 &i2c1 {
-    status = "okay";
+    compatible = "nordic,nrf-twim";
 
     trackball2: trackball2@79 {
         status = "okay";
@@ -38,5 +24,26 @@
         invert-y;
         sleep1-enable;
         sleep2-enable;
+    };
+};
+
+&left_encoder {
+    a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&gpio1 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    steps = <60>;
+    status = "okay";
+};
+
+&sensors {
+    triggers-per-rotation = <10>;
+};
+
+/ {
+    trackball_listener2: trackball_listener2 {
+        compatible = "zmk,input-listener";
+        device = <&trackball2>;
+        status = "okay";
+        input-processors = <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
+                           <&zip_xy_to_scroll_mapper &scroll_runtime_input_processor>;
     };
 };

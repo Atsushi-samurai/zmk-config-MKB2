@@ -1,29 +1,15 @@
-#include <input/processors/report_rate_limit.dtsi>
-
-&left_encoder {
-    a-gpios = <&xiao_d 7 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    b-gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    steps = <24>;
-    status = "okay";
-};
-
-&sensors {
-    triggers-per-rotation = <1>;
-};
-
-/ {
-    trackball_listener2: trackball_listener2 {
-        compatible = "zmk,input-listener";
-        device = <&trackball2>;
-        status = "okay";
-        input-processors = <&zip_report_rate_limit 16>,
-                           <&zip_xy_transform INPUT_TRANSFORM_X_INVERT>,
-                           <&zip_keybind_keys>;
-    };
-};
+/* 診断用ファーム: トラックボールをkeybind出力、エンコーダーをtriggers=1で検出
+ *
+ * 書き込んで確認する内容:
+ * - トラックボール: テキスト入力欄でカーソルが上下左右に動けばPAT9125正常
+ * - エンコーダー:   1クリックでvolume up/downが反応すれば正常
+ *
+ * PAT9125: i2c1 (nrf-twim), address=0x79, motion=P0.05
+ * EC11:    A=gpio1 13 (P1.13 / D8), B=gpio1 12 (P1.12 / D7), steps=60
+ */
 
 &i2c1 {
-    status = "okay";
+    compatible = "nordic,nrf-twim";
 
     trackball2: trackball2@79 {
         status = "okay";
@@ -36,7 +22,25 @@
         zephyr,axis-y = <INPUT_REL_X>;
         invert-x;
         invert-y;
-        sleep1-enable;
-        sleep2-enable;
+    };
+};
+
+&left_encoder {
+    a-gpios = <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    b-gpios = <&gpio1 12 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+    steps = <60>;
+    status = "okay";
+};
+
+&sensors {
+    triggers-per-rotation = <1>;
+};
+
+/ {
+    trackball_listener2: trackball_listener2 {
+        compatible = "zmk,input-listener";
+        device = <&trackball2>;
+        status = "okay";
+        input-processors = <&zip_keybind_keys>;
     };
 };
