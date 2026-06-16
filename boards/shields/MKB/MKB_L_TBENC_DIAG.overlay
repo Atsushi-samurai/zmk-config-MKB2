@@ -1,28 +1,12 @@
-/* 診断用ファーム (te9no TBENC branch準拠)
+/* 診断用ファーム — i2c1バス確認版
  *
- * トラックボール → keybind (上下左右キー) で動作確認
- * エンコーダー  → triggers-per-rotation=1 で1クリック単位確認
+ * i2c0ではPAT9125のログが全く出ない（i2c0初期化失敗でdeferredの疑い）。
+ * i2c1はOLEDで動作確認済みのバス。PAT9125をi2c1に乗せることで
+ * 必ずinit関数が走り、ログから成否を確認する。
  *
- * PAT9125: i2c0 (nrf-twim), SDA=P1.13(D8), SCL=P0.04(D4), motion=P0.05(D5)
+ * PAT9125: i2c1 (nrf-twi, OLEDと同バス共有), motion=P0.05(D5)
  * EC11:    A=gpio1 0 (P1.00), B=gpio1 10 (P1.10), steps=24
  */
-
-&pinctrl {
-    i2c0_tbenc_default: i2c0_tbenc_default {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
-        };
-    };
-
-    i2c0_tbenc_sleep: i2c0_tbenc_sleep {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
-            low-power-enable;
-        };
-    };
-};
 
 &left_encoder {
     a-gpios = <&gpio1 0 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
@@ -44,13 +28,7 @@
     };
 };
 
-&i2c0 {
-    status = "okay";
-    compatible = "nordic,nrf-twim";
-    pinctrl-0 = <&i2c0_tbenc_default>;
-    pinctrl-1 = <&i2c0_tbenc_sleep>;
-    pinctrl-names = "default", "sleep";
-
+&i2c1 {
     trackball2: trackball2@79 {
         status = "okay";
         compatible = "pixart,pat9125";
