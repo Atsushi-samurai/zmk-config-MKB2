@@ -6,6 +6,7 @@ on:
       - config/**
       - boards/**
       - build.yaml
+      - .github/workflows/build.yml
  
 jobs:
   build:
@@ -17,7 +18,6 @@ jobs:
     permissions:
       actions: read
       contents: write
-    continue-on-error: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -66,13 +66,63 @@ jobs:
           path: 'firmware/${{ steps.branch-name.outputs.branch }}/*'
 
   notify:
-    needs: build
+    needs:
+      - build
+      - upload-firmware
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: stegzilla/discord-notify@v2
+      - name: Checkout trigger commit
+        uses: actions/checkout@v4
+
+      - name: Prepare notification
+        id: notification
+        shell: bash
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          UPLOAD_RESULT: ${{ needs.upload-firmware.result }}
+        run: |
+          translate_result() {
+            case "$1" in
+              success) echo "成功" ;;
+              failure) echo "失敗" ;;
+              cancelled) echo "キャンセル" ;;
+              skipped) echo "スキップ" ;;
+              *) echo "$1" ;;
+            esac
+          }
+
+          BUILD_STATUS=$(translate_result "$BUILD_RESULT")
+          UPLOAD_STATUS=$(translate_result "$UPLOAD_RESULT")
+
+          if [[ "$BUILD_RESULT" == "success" && "$UPLOAD_RESULT" == "success" ]]; then
+            OVERALL_STATUS="成功"
+            COLOUR="#2EA043"
+          else
+            OVERALL_STATUS="失敗"
+            COLOUR="#D1242F"
+          fi
+
+          {
+            echo "overall=$OVERALL_STATUS"
+            echo "build=$BUILD_STATUS"
+            echo "upload=$UPLOAD_STATUS"
+            echo "colour=$COLOUR"
+            echo "commit_message=$(git log -1 --pretty=%s)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Send Discord notification
+        uses: stegzilla/discord-notify@v2
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          title: Completed
-          message: Completed
-        if: ${{ always() }}
+          title: ZMK firmware ${{ steps.notification.outputs.overall }}
+          title_url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          colour: ${{ steps.notification.outputs.colour }}
+          message: |
+            **リポジトリ:** `${{ github.repository }}`
+            **ブランチ:** `${{ github.ref_name }}`
+            **コミット:** `${{ steps.notification.outputs.commit_message }}`
+            **ビルド:** ${{ steps.notification.outputs.build }}
+            **ファームウェア保存:** ${{ steps.notification.outputs.upload }}
+            **実行結果:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
