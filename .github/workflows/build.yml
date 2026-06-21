@@ -32,6 +32,9 @@ jobs:
           echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
           echo "Branch name is $BRANCH_NAME"
 
+      - name: Sync latest branch changes
+        run: git pull --ff-only origin ${{ steps.branch-name.outputs.branch }}
+
       - name: Prepare firmware directory
         run: |
           mkdir -p firmware/${{ steps.branch-name.outputs.branch }}
