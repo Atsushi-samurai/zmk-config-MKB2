@@ -37,7 +37,7 @@ layers:
   - DOT
   - UP
   - {t: FSLH, h: LSHFT}
-  - {t: ESC, h: LCTL}
+  - LCTL
   - LGUI
   - LALT
   - {t: SPACE, h: Num}
