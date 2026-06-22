@@ -33,12 +33,22 @@ include:
     snippet: Default zmk-usb-logging studio-rpc-usb-uart
     artifact-name: MKB_L_MODULE_KEY
 
-  # PAT9125 + EC21 module diagnostic build. The trackball emits arrow keys;
-  # the encoder uses the normal left-side volume sensor binding.
+  # PAT9125 + EC21 module diagnostic build. EXT_1/EXT_2 are shared with the
+  # left OLED bus, so this target intentionally disables the OLED.
   - board: seeeduino_xiao_ble
-    shield: MKB_L_Base MKB_L_TBENC_DIAG rgbled_adapter nice_oled
+    shield: MKB_L_Base MKB_L_TBENC_DIAG rgbled_adapter
     snippet: Default zmk-usb-logging studio-rpc-usb-uart
     artifact-name: MKB_L_MODULE_TBENC_DIAG
+
+  - board: seeeduino_xiao_ble
+    shield: MKB_L_Base MKB_L_TBENC_PAT_DIAG rgbled_adapter
+    snippet: Default zmk-usb-logging studio-rpc-usb-uart
+    artifact-name: MKB_L_MODULE_TBENC_PAT_DIAG
+
+  - board: seeeduino_xiao_ble
+    shield: MKB_L_Base MKB_L_TBENC_ENC_DIAG rgbled_adapter
+    snippet: Default zmk-usb-logging studio-rpc-usb-uart
+    artifact-name: MKB_L_MODULE_TBENC_ENC_DIAG
 
 # Right Shields
   - board: seeeduino_xiao_ble

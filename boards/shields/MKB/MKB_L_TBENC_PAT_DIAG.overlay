@@ -1,0 +1,59 @@
+/* PAT9125-only diagnosis for the MeKaBu left TBENC module. */
+
+&pinctrl {
+    i2c0_tbenc_pat_diag_default: i2c0_tbenc_pat_diag_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
+        };
+    };
+
+    i2c0_tbenc_pat_diag_sleep: i2c0_tbenc_pat_diag_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
+            low-power-enable;
+        };
+    };
+};
+
+/* The physically connected encoder occupies the OLED I2C pins. */
+&i2c1 {
+    status = "disabled";
+};
+
+&oled {
+    status = "disabled";
+};
+
+/ {
+    trackball_listener2: trackball_listener2 {
+        compatible = "zmk,input-listener";
+        device = <&trackball2>;
+        status = "okay";
+        input-processors = <&zip_keybind_keys>;
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    compatible = "nordic,nrf-twim";
+    pinctrl-0 = <&i2c0_tbenc_pat_diag_default>;
+    pinctrl-1 = <&i2c0_tbenc_pat_diag_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    trackball2: trackball2@79 {
+        status = "okay";
+        compatible = "pixart,pat9125";
+        reg = <0x79>;
+        motion-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        res-x-cpi = <300>;
+        res-y-cpi = <300>;
+        zephyr,axis-x = <INPUT_REL_Y>;
+        zephyr,axis-y = <INPUT_REL_X>;
+        invert-x;
+        invert-y;
+        sleep1-enable;
+        sleep2-enable;
+    };
+};

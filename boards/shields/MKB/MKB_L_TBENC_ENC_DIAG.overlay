@@ -1,0 +1,21 @@
+/* EC21-only diagnosis for the MeKaBu left TBENC flying wires. */
+
+/* J1 EXT_1/EXT_2 share D10/D9 with the left OLED I2C bus. */
+&i2c1 {
+    status = "disabled";
+};
+
+&oled {
+    status = "disabled";
+};
+
+&left_encoder {
+    status = "okay";
+    a-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+    b-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+    steps = <60>;
+};
+
+&sensors {
+    triggers-per-rotation = <30>;
+};

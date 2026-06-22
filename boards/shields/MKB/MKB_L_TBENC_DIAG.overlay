@@ -10,6 +10,10 @@
  *   EC21 A = D10 / P1.15
  *   EC21 B = D9  / P1.14
  *
+ * EXT_1/EXT_2 are also the left OLED's i2c1 SCL/SDA pins. The encoder and
+ * OLED therefore cannot be active at the same time with this wiring.
+ * Disable i2c1/OLED before claiming those pins as GPIO inputs.
+ *
  * PAT9125 axis settings and EC21 electrical/step settings follow the
  * later, hardware-verified taichan1113/module-debugger snippets.
  */
@@ -29,6 +33,14 @@
             low-power-enable;
         };
     };
+};
+
+&i2c1 {
+    status = "disabled";
+};
+
+&oled {
+    status = "disabled";
 };
 
 &left_encoder {
