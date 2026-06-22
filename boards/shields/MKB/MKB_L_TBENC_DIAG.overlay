@@ -1,0 +1,77 @@
+/*
+ * MeKaBu left PAT9125 + EC21 diagnostic target.
+ *
+ * The FFC pin mapping comes from the MeKaBu Shield_L schematic:
+ *   PAT9125 SDA    = D8  / P1.13
+ *   PAT9125 SCL    = D4  / P0.04
+ *   PAT9125 MOTION = D5  / P0.05
+ *
+ * The encoder's two flying wires are connected to J1 EXT_1/EXT_2:
+ *   EC21 A = D10 / P1.15
+ *   EC21 B = D9  / P1.14
+ *
+ * PAT9125 axis settings and EC21 electrical/step settings follow the
+ * later, hardware-verified taichan1113/module-debugger snippets.
+ */
+
+&pinctrl {
+    i2c0_tbenc_diag_default: i2c0_tbenc_diag_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
+        };
+    };
+
+    i2c0_tbenc_diag_sleep: i2c0_tbenc_diag_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 4)>;
+            low-power-enable;
+        };
+    };
+};
+
+&left_encoder {
+    status = "okay";
+    a-gpios = <&gpio1 15 GPIO_ACTIVE_HIGH>;
+    b-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
+    steps = <60>;
+};
+
+&sensors {
+    triggers-per-rotation = <30>;
+};
+
+/ {
+    trackball_listener2: trackball_listener2 {
+        compatible = "zmk,input-listener";
+        device = <&trackball2>;
+        status = "okay";
+
+        /* Convert motion to arrow keys so even tiny input is obvious. */
+        input-processors = <&zip_keybind_keys>;
+    };
+};
+
+&i2c0 {
+    status = "okay";
+    compatible = "nordic,nrf-twim";
+    pinctrl-0 = <&i2c0_tbenc_diag_default>;
+    pinctrl-1 = <&i2c0_tbenc_diag_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    trackball2: trackball2@79 {
+        status = "okay";
+        compatible = "pixart,pat9125";
+        reg = <0x79>;
+        motion-gpios = <&gpio0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+        res-x-cpi = <300>;
+        res-y-cpi = <300>;
+        zephyr,axis-x = <INPUT_REL_Y>;
+        zephyr,axis-y = <INPUT_REL_X>;
+        invert-x;
+        invert-y;
+        sleep1-enable;
+        sleep2-enable;
+    };
+};
