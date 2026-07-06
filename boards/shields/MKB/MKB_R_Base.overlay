@@ -45,6 +45,13 @@
         rows = <0>;
         events = <0>;
     };
+
+    mkb_right_rebuild_marker: mkb_right_rebuild_marker {
+        compatible = "zmk,kscan-mock";
+        columns = <0>;
+        rows = <0>;
+        events = <0>;
+    };
 };
 
 &i2c1 {
