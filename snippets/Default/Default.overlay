@@ -64,6 +64,12 @@
         input-processors = <&mouse_runtime_input_processor &scroll_runtime_input_processor>,
                            <&zip_xy_scaler 1 2>;
 
+        function {
+            layers = <1>;
+            input-processors = <&mouse_runtime_input_processor &scroll_runtime_input_processor>,
+                               <&zip_xy_scaler 1 6>;
+        };
+
         scroller {
             layers = <4>;
             input-processors = <&zip_xy_to_scroll_mapper>,
