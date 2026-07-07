@@ -1,10 +1,14 @@
 name: Draw ZMK keymaps
+concurrency:
+  group: zmk-generated-outputs-${{ github.ref }}
+  cancel-in-progress: false
 on:
   workflow_dispatch:
   push:
     paths:
       - "config/*"
       - "keymap-drawer/config.yaml"
+      - ".github/workflows/draw-keymap.yml"
 
 jobs:
   draw:

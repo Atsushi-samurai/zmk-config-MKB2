@@ -103,9 +103,9 @@ layers:
   - {t: ENTER, type: held}
   - ENTER
   - ENTER
+  - Ctl+Sft+TAB
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Ctl+TAB
   - LEFT
   - UP
   - SPACE
@@ -153,7 +153,7 @@ layers:
   - FSLH
   - SEMI
   - SQT
-  - {t: ▽, type: trans}
+  - Ctl+UP
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - ENTER
@@ -162,9 +162,9 @@ layers:
   - ENTER
   - ENTER
   - ENTER
+  - Ctl+LEFT
   - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
-  - {t: ▽, type: trans}
+  - Ctl+RIGHT
   - LEFT
   - UP
   - SPACE

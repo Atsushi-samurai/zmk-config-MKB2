@@ -1,4 +1,7 @@
 name: Build ZMK firmware
+concurrency:
+  group: zmk-generated-outputs-${{ github.ref }}
+  cancel-in-progress: false
 on: 
   workflow_dispatch:
   push:
