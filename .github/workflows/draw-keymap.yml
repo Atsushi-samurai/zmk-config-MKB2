@@ -4,19 +4,27 @@ concurrency:
   cancel-in-progress: false
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Build ZMK firmware
+    types:
+      - completed
   push:
     paths:
-      - "config/*"
       - "keymap-drawer/config.yaml"
       - ".github/workflows/draw-keymap.yml"
 
 jobs:
   draw:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main')
     uses: caksoylar/keymap-drawer/.github/workflows/draw-zmk.yml@main
     permissions:
       contents: write
     with:
-      commit_message: "[Draw] ${{ github.event.head_commit.message }}"
+      commit_message: "[Draw] Update MeKaBu keymap drawing"
       amend_commit: false
       install_branch: "main"
       keymap_patterns: "config/*.keymap"
