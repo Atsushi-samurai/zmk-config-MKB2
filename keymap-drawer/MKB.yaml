@@ -24,7 +24,7 @@ layers:
   - K
   - L
   - SEMI
-  - {t: SQT, h: Mouse}
+  - MINUS
   - LSHFT
   - Z
   - X
@@ -43,7 +43,7 @@ layers:
   - {t: SPACE, h: Num}
   - {t: SPACE, h: Fnc}
   - {t: ENTER, h: Fnc}
-  - {t: MINUS, h: Num}
+  - {t: ENTER, h: Num}
   - LEFT
   - DOWN
   - RIGHT
@@ -201,7 +201,7 @@ layers:
   - '&mkp MB3'
   - '&mkp MB2'
   - {t: ▽, type: trans}
-  - {type: held}
+  - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
